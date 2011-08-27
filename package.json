@@ -1,0 +1,18 @@
+{
+  "author": "Dan Hagon <axiomsofchoice@gmail.com>",
+  "name": "noodles",
+  "description": "A webapp for the 2011 Node Knockout hackathon.",
+  "version": "0.0.0",
+  "homepage": "http://nodeknockout.com/teams/node-noodles",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nko2/node-noodles.git"
+  },
+  "engines": {
+    "node": "~v0.5.5"
+  },
+  "dependencies": {
+    "nko": "~0.1.1"
+  },
+  "devDependencies": {}
+}
