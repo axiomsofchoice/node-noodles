@@ -20,8 +20,14 @@ app.set('view options', {
 
 app.get('/', function(req, res){
 	res.render('templt.jade',{pageTitle:'Search',youAreUsingJade:'Hello World!'});
-    });
+});
 
+// The search by keyword interface
+app.get('/search', function(req, res){
+    odoar.odoarloookup( req.params.srchkwd, function(data) {
+        res.render('search-results.jade',{results:data});
+    });
+});
 
 app.listen(process.env.NODE_ENV === 'production' ? 80 : 8000, function() {
   console.log('Ready');
@@ -34,5 +40,4 @@ app.listen(process.env.NODE_ENV === 'production' ? 80 : 8000, function() {
     });
 });
 
-//console.log('Listening on ' + app.address().port);
-odoar.odoarloookup( 'Nanotechnology', function(data) { sys.puts(data); });
+
