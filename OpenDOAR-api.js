@@ -3,7 +3,7 @@ http://www.opendoar.org/tools/api13manual.html
 */
 
 var querystring = require('querystring')
-    , xml = requirfe('node-xml')
+    , xml = require('node-xml')
     , rest = require('restler') ;
 
 
