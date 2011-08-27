@@ -3,6 +3,7 @@ http://www.opendoar.org/tools/api13manual.html
 */
 
 var querystring = require('querystring')
+    , xml = requirfe('node-xml')
     , rest = require('restler') ;
 
 
@@ -16,7 +17,13 @@ exports.odoarloookup = function (keyword, callback) {
     
     var full_request_url = service_url + '?' + querystring.stringify(params); 
     
-    rest.get(full_request_url).on('complete', callback);
+    rest.get(full_request_url).on('complete', function(data) {
+            
+            // For now just checking the async behaviour
+            var some_result = 'dummy_result' ;
+            
+            callback(some_result) ;
+    });
     
 }
 

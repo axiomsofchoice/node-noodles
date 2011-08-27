@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "nko": "*",
-    "restler": "*"
+    "restler": "*",
+    "node-xml":"*"
   },
   "devDependencies": {}
 }
