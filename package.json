@@ -15,7 +15,7 @@
     "nko": "*",
     "restler": "*",
     "node-xml":"*",
-    "jade", "*",
+    "jade": "*",
     "express": "*"
   },
   "devDependencies": {}
