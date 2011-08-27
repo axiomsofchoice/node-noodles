@@ -2,14 +2,15 @@
 http://www.opendoar.org/tools/api13manual.html
 */
 
-var rest = require('restler') ;
+var querystring = require('querystring')
+    , rest = require('restler') ;
 
 
 var service_url = 'http://www.opendoar.org/api.php' ;
 
 // Test the server making http requests to a web service
 // based on keyword
-function odoarloookup(keyword, callback) {
+exports.odoarloookup = function (keyword, callback) {
     
     var params = { 'kwd':keyword, 'show':'max'}
     
