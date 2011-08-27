@@ -14,7 +14,8 @@
   "dependencies": {
     "nko": "*",
     "restler": "*",
-    "node-xml":"*"
+    "node-xml":"*",
+    "express": "*",
   },
   "devDependencies": {}
 }

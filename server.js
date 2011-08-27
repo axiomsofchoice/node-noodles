@@ -1,14 +1,25 @@
 // server.js 
 
 var http = require('http')
+    , express = require('express')
+    , jade = require('jade')
     , sys = require('sys')
     , rest = require('restler')
     , odoar = require('./OpenDOAR-api')
     , nko = require('nko')('Eg3lmCJD7aocos0E');
 
-var app = http.createServer(function (req, res) { 
-	res.writeHead(200, { 'Content-Type': 'text/html' }); 
-	res.end('Hello, World'); 
+
+var app = express.createServer();
+
+app.set('view engine', 'html');
+app.register('.html', jade );
+app.set('views', __dirname+'/pages');
+app.set('view options', {
+	layout: false
+	    });
+
+app.get('/', function(req, res){
+	res.render('templt.jade',{pageTitle:'Search',youAreUsingJade:'Hello World!'});
     });
 
 
@@ -25,5 +36,3 @@ app.listen(process.env.NODE_ENV === 'production' ? 80 : 8000, function() {
 
 //console.log('Listening on ' + app.address().port);
 odoar.odoarloookup( 'Nanotechnology', function(data) { sys.puts(data); });
-
-
