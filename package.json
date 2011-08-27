@@ -12,7 +12,8 @@
     "node": "~v0.5.5"
   },
   "dependencies": {
-    "nko": "*"
+    "nko": "*",
+    "restler": "*"
   },
   "devDependencies": {}
 }
