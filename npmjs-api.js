@@ -49,11 +49,17 @@ exports.npmjsCronJob = function (db) {
                         rest.get(full_request_url).on('complete',
                           function(packageMetadata) {
                             
-                            var ins_obj = {
-                                "name": packageName,
-                                "description": packageMetadata["description"],
-                                "dependencies": packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"]
-                            };
+                            try {
+                                var ins_obj = {
+                                    "name": packageName,
+                                    "description": packageMetadata["description"],
+                                    "dependencies": packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"]
+                                };
+                            } catch (err if TypeError) {
+                                console.log('Problem getting information about dependencies: ' + TypeError);
+                                console.log('Aborting this package...');
+                                return;
+                            }
                             
                             console.log('Original package metadata:'+JSON.stringify(packageMetadata));
                             console.log('New package metadata:'+JSON.stringify(ins_obj));
