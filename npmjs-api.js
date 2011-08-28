@@ -4,6 +4,10 @@
 *  Details of the API are given at: https://github.com/isaacs/npmjs.org
 *  
 *  This runs as a pseudo-cron, polling the main registry for changes every 5mins
+*  
+*  TODO: Also check for updates to packages, not just new ones.
+*  
+*  @author axiomsofchoice
 */
 
 var querystring = require('querystring')
@@ -25,31 +29,36 @@ exports.npmjsCronJob = function (db) {
             // Connect to the MongoDB server and check for changes
             db.open(function(err, db) {
               if(!err) {
-                console.log("Connected to MongoDB server.");
-                
-                var current_package_list = ['void'] ;
-                
-                //
-                var packageName = '' ;
-                
-                
-                console.log('New package found: ' + packageName) ;
-                
-                // Get the metadata for this new package and insert into the db
-                var full_request_url = repo_url + '?' 
-                                    + querystring.stringify( packageName );
-                
-                rest.get(full_request_url).on('complete', function(data) { ;
-                    db.collection('test', function(err, collection) {
-                        collection.insert(data, {safe:true},
-                            function(err, result) {
-                                console.log("Failed to insert new package"
-                                    + "metadata for: " + packageName);
-                            });
-                    });
-                }
+                  
+                  console.log("Connected to MongoDB server.");
+                  
+                  db.collection('node-packages', function(err, collection) {
+                      
+                      // Get current list of packages, which is a special doc
+                      collection.findOne({dockey:0}, 
+                        function(err, current_package_list) {
+                              
+                              // FOR TESTING ONLY!!
+                              var packageName = current_package_list[0] ;
+                              
+                              console.log('New package found: ' + packageName) ;
+                              
+                              // Get the metadata for this new package and
+                              // insert into the db
+                              var full_request_url = repo_url + '?' 
+                                        + querystring.stringify( packageName );
+                              
+                              rest.get(full_request_url).on('complete', function(data) {
+                                  collection.insert(data, {safe:true},
+                                    function(err, result) {
+                                            console.log("Failed to insert new package"
+                                                + "metadata for: " + packageName);
+                                   });
+                              });
+                        });
+                  });
               } else {
-                console.log("Failed to connect to MongoDB server.");
+                  console.log("Failed to connect to MongoDB server.");
               }
             });
             
