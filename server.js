@@ -62,14 +62,50 @@ app.get('/', function(req, res){
 //static files
 app.get('/force.html', function(req, res){
     fs.readFile('./pages/force.html', function(error, content) {
-        if (error) {
-            res.writeHead(500);
-            res.end('Error');
-        }
-        else {
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.end(content, 'utf-8');
-        }
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(content, 'utf-8');
+    });
+});
+app.get('/d3.js', function(req, res){
+    fs.readFile('./pages/d3.js', function(error, content) {
+        res.writeHead(200, { 'Content-Type': 'application/javascript' });
+        res.end(content, 'utf-8');
+    });
+});
+app.get('/style.css', function(req, res){
+    fs.readFile('./pages/style.css', function(error, content) {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(content, 'utf-8');
+    });
+});
+app.get('/syntax.css', function(req, res){
+    fs.readFile('./pages/syntax.css', function(error, content) {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(content, 'utf-8');
+    });
+});
+app.get('/force.css', function(req, res){
+    fs.readFile('./pages/force.css', function(error, content) {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(content, 'utf-8');
+    });
+});
+app.get('/d3.layout.js', function(req, res){
+    fs.readFile('./pages/d3.layout.js', function(error, content) {
+        res.writeHead(200, { 'Content-Type': 'application/javascript' });
+        res.end(content, 'utf-8');
+    });
+});
+app.get('/d3.geom.js', function(req, res){
+    fs.readFile('./pages/d3.geom.js', function(error, content) {
+        res.writeHead(200, { 'Content-Type': 'application/javascript' });
+        res.end(content, 'utf-8');
+    });
+});
+app.get('/force.js', function(req, res){
+    fs.readFile('./pages/force.js', function(error, content) {
+        res.writeHead(200, { 'Content-Type': 'application/javascript' });
+        res.end(content, 'utf-8');
     });
 });
 
