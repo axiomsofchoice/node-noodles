@@ -27,11 +27,12 @@ var http = require('http')
 var Server = mongo.Server,
     Db = mongo.Db;
 
-var server = new Server('axiomsofchoice:kiu3y&djh3D@staff.mongohq.com', 10061, {auto_reconnect: true});
+var server = new Server('staff.mongohq.com', 10061, {auto_reconnect: true});
 var db = new Db('node-noodles', server);
 
-db.authenticate('axiomsofchoice', 'kiu3y&djh3D', function(err,foo) {
-    db.open(function(err, db) {
+
+db.open(function(err, db) {
+    db.authenticate('axiomsofchoice', 'kiu3y&djh3D', function(err,foo) {
       if(!err) {
         console.log("We are connected");
         // Setup pseudo-cron job to poll npm registry for changes and update mongodb
@@ -40,6 +41,8 @@ db.authenticate('axiomsofchoice', 'kiu3y&djh3D', function(err,foo) {
         // TO TEST!!
         console.log('Testing the insert.') ;
         npmjsapi.npmjsCronJob(db);
+      } else {
+	  console.log('Failed to connect to MongoDB.') ;
       }
     });
 });
