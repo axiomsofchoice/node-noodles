@@ -35,11 +35,12 @@ exports.npmjsCronJob = function (db) {
                   db.collection('node-packages', function(err, collection) {
                       
                       // Get current list of packages, which is a special doc
-                      collection.findOne({dockey:0}, 
+                      collection.findOne({_id:"4e5a85d99643f10007000005"}, 
                         function(err, current_package_list) {
                               
                               // FOR TESTING ONLY!!
-                              var packageName = current_package_list[0] ;
+                              var packageName = 
+                                current_package_list.package_list[0] ;
                               
                               console.log('New package found: ' + packageName) ;
                               
@@ -48,11 +49,13 @@ exports.npmjsCronJob = function (db) {
                               var full_request_url = repo_url + '?' 
                                         + querystring.stringify( packageName );
                               
-                              rest.get(full_request_url).on('complete', function(data) {
+                              rest.get(full_request_url).on('complete',
+                                function(data) {
                                   collection.insert(data, {safe:true},
                                     function(err, result) {
-                                            console.log("Failed to insert new package"
-                                                + "metadata for: " + packageName);
+                                            console.log("Failed to insert new" +
+                                                "package metadata for: "
+                                                + packageName);
                                    });
                               });
                         });
