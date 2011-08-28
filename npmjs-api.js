@@ -49,9 +49,11 @@ exports.npmjsCronJob = function (db) {
                 rest.get(full_request_url).on('complete',
                   function(packageMetadata) {
                       
+						  if(packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"]==null ) {
+						      console.log('Could not find dependencies. Skipping.')
+						  };
                       var ins_obj = {
-                          _id: new db.bson_serializer.ObjectID(packageName),
-                          "name": packageMetadata["name"],
+                          "name": packageName,
                           "description": packageMetadata["description"],
                           "dependencies": packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"]
                       } ;
