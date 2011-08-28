@@ -30,18 +30,19 @@ var Server = mongo.Server,
 var server = new Server('staff.mongohq.com', 10061, {auto_reconnect: true});
 var db = new Db('node-noodles', server);
 
-db.open(function(err, db) {
-  if(!err) {
-    console.log("We are connected");
-    // Setup pseudo-cron job to poll npm registry for changes and update mongodb
-    // Poll every 5 minutes
-    //var npmjsapi_cron = setInterval(npmjsapi.npmjsCronJob, 300000, db);
-    // TO TEST!!
-    console.log('Testing the insert.') ;
-    npmjsapi.npmjsCronJob(db);
-  }
+db.authenticate('axiomsofchoice', 'kiu3y&djh3D', function({ 
+    db.open(function(err, db) {
+      if(!err) {
+        console.log("We are connected");
+        // Setup pseudo-cron job to poll npm registry for changes and update mongodb
+        // Poll every 5 minutes
+        //var npmjsapi_cron = setInterval(npmjsapi.npmjsCronJob, 300000, db);
+        // TO TEST!!
+        console.log('Testing the insert.') ;
+        npmjsapi.npmjsCronJob(db);
+      }
+    });
 });
-
 
 var app = express.createServer();
 
