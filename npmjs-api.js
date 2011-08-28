@@ -34,7 +34,10 @@ exports.npmjsCronJob = function (db) {
 	   collection.findOne({_id: new db.bson_serializer.ObjectID('4e5a85d99643f10007000005')}, 
               function(err, current_package_list) {
                 
-                if(err) console.log('Error finding package list doc.') ;
+                  if(err) {
+                      console.log('Error finding package list doc. Aborting') ;
+                      return;
+                  }
                 
                 console.log('current_package_list:' + JSON.stringify(current_package_list));
                 
