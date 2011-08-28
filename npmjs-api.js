@@ -30,7 +30,7 @@ exports.npmjsCronJob = function (db) {
         db.collection('node-packages', function(err, collection) {
             
             // Get current list of packages, which is a special doc
-            collection.findOne({_id:"4e5a85d99643f10007000005"}, 
+	    collection.findOne({_id: new client.bson_serializer.ObjectID("4e5a85d99643f10007000005")}, 
               function(err, current_package_list) {
                 
                 if(err) console.log('Error finding package list doc.') ;
