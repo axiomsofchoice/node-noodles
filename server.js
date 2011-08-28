@@ -31,7 +31,7 @@ var server = new Server('staff.mongohq.com', 10061, {auto_reconnect: true});
 var db = new Db('node-noodles', server);
 
 
-db.open(function(err, db) {
+/*db.open(function(err, db) {
     db.authenticate('axiomsofchoice', 'kiu3y&djh3D', function(err,foo) {
       if(!err) {
         console.log("We are connected");
@@ -45,17 +45,31 @@ db.open(function(err, db) {
 	  console.log('Failed to connect to MongoDB.') ;
       }
     });
-});
+});*/
 
 var app = express.createServer();
 
-app.set('view engine', 'html');
+/*app.set('view engine', 'html');
 app.register('.html', jade );
 app.set('views', __dirname+'/pages');
 app.set('view options', { layout: false });
 
 app.get('/', function(req, res){
 	res.render('templt.jade',{pageTitle:'Search',youAreUsingJade:'Hello World!'});
+});*/
+
+//static files
+app.get('/force.html', function(req, res){
+    fs.readFile('./pages/force.html', function(error, content) {
+        if (error) {
+            response.writeHead(500);
+            response.end();
+        }
+        else {
+            response.writeHead(200, { 'Content-Type': contentType });
+            response.end(content, 'utf-8');
+        }
+    });
 });
 
 // The search by keyword interface
@@ -76,5 +90,4 @@ app.listen(process.env.NODE_ENV === 'production' ? 80 : 8000, function() {
       process.setuid(stats.uid);
     });
 });
-
 
