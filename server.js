@@ -33,13 +33,15 @@ var db = new Db('node-noodles', server);
 db.open(function(err, db) {
   if(!err) {
     console.log("We are connected");
+    // Setup pseudo-cron job to poll npm registry for changes and update mongodb
+    // Poll every 5 minutes
+    //var npmjsapi_cron = setInterval(npmjsapi.npmjsCronJob, 300000, db);
+    // TO TEST!!
+    console.log('Testing the insert.') ;
+    npmjsapi.npmjsCronJob(db);
+    console.log('Finished test!');
   }
 });
-
-
-// Setup pseudo-cron job to poll npm registry for changes and update mongodb
-// Poll every 5 minutes
-var npmjsapi_cron = setInterval(npmjsapi.npmjsCronJob, 300000, db);
 
 
 var app = express.createServer();
