@@ -27,7 +27,7 @@ var http = require('http')
 var Server = mongo.Server,
     Db = mongo.Db;
 
-var server = new Server('staff.mongohq.com', 10061, {auto_reconnect: true});
+var server = new Server('axiomsofchoice:kiu3y&djh3D@staff.mongohq.com', 10061, {auto_reconnect: true});
 var db = new Db('node-noodles', server);
 
 db.authenticate('axiomsofchoice', 'kiu3y&djh3D', function(err,foo) {
