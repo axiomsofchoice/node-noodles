@@ -45,14 +45,23 @@ exports.npmjsCronJob = function (db) {
                 // Get the metadata for this new package and insert into the db
                 var full_request_url = repo_url + querystring.escape( packageName );
                 
-		console.log('Requesting: '+full_request_url) ;
+                 console.log('Requesting: '+full_request_url) ;
                 rest.get(full_request_url).on('complete',
                   function(packageMetadata) {
-		    console.log('package metadata:'+JSON.stringify(packageMetadata));
-                    collection.insert(packageMetadata, {safe:true},
+                      
+                      var ins_obj = {
+                          _id: new db.bson_serializer.ObjectID(packageName),
+                          "name": packageMetadata["name"],
+                          "description": packageMetadata["description"],
+                          "dependencies": packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"]
+                      } ;
+
+                    console.log('Original package metadata:'+JSON.stringify(packageMetadata));
+                    console.log('New package metadata:'+JSON.stringify(ins_obj));
+                    collection.insert(ins_obj, {safe:true},
                       function(err, result) {
                         console.log("Failed to insert new package metadata for: " + packageName);
-			console.log("Error: " + err) ;
+                        console.log("Error: " + err) ;
                        });
                   });
               });
