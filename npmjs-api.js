@@ -39,7 +39,7 @@ exports.npmjsCronJob = function (db) {
                 console.log('current_package_list:' + JSON.stringify(current_package_list));
                 
                 // Find out if we already have them
-                for each (var packageName in package_list) {
+                package_list.forEach( fucntion(packageName) {
                     if(current_package_list['package_list'].indexOf(packageName)==-1){
                         console.log('New package found: ' + packageName) ;
                         
@@ -75,7 +75,7 @@ exports.npmjsCronJob = function (db) {
                                });
                           });
                     }
-                }
+                });
               });
         });
     });
