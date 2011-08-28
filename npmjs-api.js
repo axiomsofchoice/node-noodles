@@ -39,7 +39,7 @@ exports.npmjsCronJob = function (db) {
                       return;
                   }
                 
-                console.log('current_package_list:' + JSON.stringify(current_package_list));
+                //console.log('current_package_list:' + JSON.stringify(current_package_list));
                 
                 // Find out if we already have them
                 package_list.forEach( function(packageName) {
@@ -64,8 +64,8 @@ exports.npmjsCronJob = function (db) {
                                 return;
                             }
                             
-                            console.log('Original package metadata:'+JSON.stringify(packageMetadata));
-                            console.log('New package metadata:'+JSON.stringify(ins_obj));
+                            //console.log('Original package metadata:'+JSON.stringify(packageMetadata));
+                            //console.log('New package metadata:'+JSON.stringify(ins_obj));
                             collection.insert(ins_obj, {safe:true},
                               function(err, result) {
                                   if(err) {
