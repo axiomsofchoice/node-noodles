@@ -27,31 +27,32 @@ exports.npmjsCronJob = function (db) {
         var package_list = data.sort() ;
         
         // Get the packages collection
-        db.collection('node-packages', function(err, collection) {
+        db.collection('npm_packages', function(err, collection) {
             
             // Get current list of packages, which is a special doc
-	    collection.findOne({_id: new client.bson_serializer.ObjectID("4e5a85d99643f10007000005")}, 
+	   collection.findOne({_id: new db.bson_serializer.ObjectID('4e5a85d99643f10007000005')}, 
               function(err, current_package_list) {
                 
                 if(err) console.log('Error finding package list doc.') ;
                 
-                console.log('current_package_list:' + current_package_list);
+                console.log('current_package_list:' + JSON.stringify(current_package_list));
                 
                 // FOR TESTING ONLY!!
-                var packageName = current_package_list.package_list[0] ;
+                var packageName = '3scale' ;//current_package_list['package_list'][0] ;
                 
                 console.log('New package found: ' + packageName) ;
                 
                 // Get the metadata for this new package and insert into the db
-                var full_request_url = repo_url + '?' 
-                                + querystring.stringify( packageName );
+                var full_request_url = repo_url + querystring.escape( packageName );
                 
+		console.log('Requesting: '+full_request_url) ;
                 rest.get(full_request_url).on('complete',
                   function(packageMetadata) {
+		    console.log('package metadata:'+JSON.stringify(packageMetadata));
                     collection.insert(packageMetadata, {safe:true},
                       function(err, result) {
-                        console.log("Failed to insert new" +
-                                    "package metadata for: " + packageName);
+                        console.log("Failed to insert new package metadata for: " + packageName);
+			console.log("Error: " + err) ;
                        });
                   });
               });
