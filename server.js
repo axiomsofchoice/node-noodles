@@ -108,6 +108,12 @@ app.get('/force.js', function(req, res){
         res.end(content, 'utf-8');
     });
 });
+app.get('/miserables.json', function(req, res){
+    fs.readFile('./pages/miserables.json', function(error, content) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(content, 'utf-8');
+    });
+});
 
 // The search by keyword interface
 app.get('/search', function(req, res){
