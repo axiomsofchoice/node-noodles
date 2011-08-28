@@ -11,6 +11,7 @@
 */
 
 var querystring = require('querystring')
+    , mongo = require('mongodb')
     , rest = require('restler') ;
 
 
