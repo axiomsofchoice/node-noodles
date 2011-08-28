@@ -27,7 +27,7 @@ exports.npmjsCronJob = function (db) {
               if(!err) {
                 console.log("Connected to MongoDB server.");
                 
-                var current_package_list = ['void'] ; // make sure there is always something in here
+                var current_package_list = ['void'] ;
                 
                 //
                 var packageName = '' ;
@@ -37,8 +37,17 @@ exports.npmjsCronJob = function (db) {
                 
                 // Get the metadata for this new package and insert into the db
                 var full_request_url = repo_url + '?' 
-                                    + querystring.stringify( packageName ); 
+                                    + querystring.stringify( packageName );
                 
+                rest.get(full_request_url).on('complete', function(data) { ;
+                    db.collection('test', function(err, collection) {
+                        collection.insert(data, {safe:true},
+                            function(err, result) {
+                                console.log("Failed to insert new package"
+                                    + "metadata for: " + packageName);
+                            });
+                    });
+                }
               } else {
                 console.log("Failed to connect to MongoDB server.");
               }
