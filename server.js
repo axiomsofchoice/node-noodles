@@ -1,4 +1,8 @@
-// server.js 
+/**
+*  
+*
+*
+*/
 
 var http = require('http')
     , sys = require('sys')
@@ -6,14 +10,14 @@ var http = require('http')
     , jade = require('jade')
     , rest = require('restler')
     , mongo = require('mongodb')
-    , odoar = require('./OpenDOAR-api')
+    , npmjsapi = require('./npmjs-api')
     , nko = require('nko')('Eg3lmCJD7aocos0E');
 
 // MongDB stuff
+//mongodb://axiomsofchoice:kiu3y&djh3D@staff.mongohq.com:10061/node-noodles
+
 var Server = mongo.Server,
     Db = mongo.Db;
-
-//mongodb://axiomsofchoice:kiu3y&djh3D@staff.mongohq.com:10061/node-noodles
 
 var server = new Server('staff.mongohq.com', 10061, {auto_reconnect: true});
 var db = new Db('node-noodles', server);
@@ -23,7 +27,16 @@ db.open(function(err, db) {
     console.log("We are connected");
   }
 });
-    
+
+
+// As the server starts up it needs to check the database is correctly init'd
+npmjsapi.npmjsIntialize();
+
+// Setup pseudo-cron job to poll npm registry for changes and update mongodb
+// Poll every 5 minutes
+var npmjsapi_cron = setInterval(npmjsapi.npmjsCronJob, 300000, db);
+
+
 var app = express.createServer();
 
 app.set('view engine', 'html');
@@ -40,9 +53,9 @@ app.get('/', function(req, res){
 // The search by keyword interface
 app.get('/search', function(req, res){
 	console.log('Params: ' + JSON.stringify(req)) ;
-    odoar.odoarloookup( req.params.srchkwd, function(data) {
+    /*odoar.odoarloookup( req.params.srchkwd, function(data) {
         res.render('search-results.jade',{results:data});
-    });
+    });*/
 });
 
 app.listen(process.env.NODE_ENV === 'production' ? 80 : 8000, function() {
