@@ -60,7 +60,13 @@ app.get('/', function(req, res){
 });*/
 
 //static files
-app.get('/force.html', function(req, res){
+app.get('/', function(req, res){
+    fs.readFile('./pages/force.html', function(error, content) {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(content, 'utf-8');
+    });
+});
+app.get('/index.html', function(req, res){
     fs.readFile('./pages/force.html', function(error, content) {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(content, 'utf-8');
