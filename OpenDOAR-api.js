@@ -4,6 +4,7 @@ http://www.opendoar.org/tools/api13manual.html
 
 var querystring = require('querystring')
     , xml = require('node-xml')
+
     , rest = require('restler') ;
 
 
@@ -17,11 +18,15 @@ exports.odoarloookup = function (keyword, result_list_action) {
     
     var full_request_url = service_url + '?' + querystring.stringify(params); 
     
+    console.log('Request: ' + full_request_url) ;
     rest.get(full_request_url).on('complete', function(data) {
             
             var list_of_repos = [] ;
             var current_elem = ['void'] ; // make sure there is always something in here
             
+	    // To test
+	    console.log(data)
+	    
             // A SAX2 parser for the XML docuements returned from search in the
             var parser = new xml.SaxParser(function(cb) {
               cb.onStartDocument(function() {
@@ -29,10 +34,12 @@ exports.odoarloookup = function (keyword, result_list_action) {
               });
               cb.onEndDocument(function() {
                   result_list_action(list_of_repos) ;
+		  console.log('Document ended!');
               });
               cb.onStartElementNS(function(elem, attrs, prefix, uri, namespaces) {
                   //sys.puts("=> Started: " + elem + " uri="+uri +" (Attributes: " + JSON.stringify(attrs) + " )");
                   current_elem.push(elem) ;
+		  console.log('Element: '+elem);
               });
               cb.onEndElementNS(function(elem, prefix, uri) {
                   //sys.puts("<= End: " + elem + " uri="+uri + "\n");

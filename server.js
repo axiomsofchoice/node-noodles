@@ -24,6 +24,7 @@ app.get('/', function(req, res){
 
 // The search by keyword interface
 app.get('/search', function(req, res){
+	console.log('Params: ' + req.params) ;
     odoar.odoarloookup( req.params.srchkwd, function(data) {
         res.render('search-results.jade',{results:data});
     });
