@@ -16,6 +16,7 @@ var http = require('http')
     , sys = require('sys')
     , express = require('express')
     , jade = require('jade')
+    , fs = require('fs')
     , rest = require('restler')
     , mongo = require('mongodb')
     , npmjsapi = require('./npmjs-api')
@@ -62,12 +63,12 @@ app.get('/', function(req, res){
 app.get('/force.html', function(req, res){
     fs.readFile('./pages/force.html', function(error, content) {
         if (error) {
-            response.writeHead(500);
-            response.end();
+            res.writeHead(500);
+            res.end('Error');
         }
         else {
-            response.writeHead(200, { 'Content-Type': contentType });
-            response.end(content, 'utf-8');
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(content, 'utf-8');
         }
     });
 });
