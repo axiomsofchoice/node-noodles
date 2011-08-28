@@ -55,7 +55,7 @@ exports.npmjsCronJob = function (db) {
                                     "description": packageMetadata["description"],
                                     "dependencies": packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"]
                                 };
-                            } catch (err if TypeError) {
+                            } catch (err) {
                                 console.log('Problem getting information about dependencies: ' + TypeError);
                                 console.log('Aborting this package...');
                                 return;
