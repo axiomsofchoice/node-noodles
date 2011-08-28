@@ -33,6 +33,10 @@ exports.npmjsCronJob = function (db) {
             collection.findOne({_id:"4e5a85d99643f10007000005"}, 
               function(err, current_package_list) {
                 
+                if(err) console.log('Error finding package list doc.') ;
+                
+                console.log('current_package_list:' + current_package_list);
+                
                 // FOR TESTING ONLY!!
                 var packageName = current_package_list.package_list[0] ;
                 
@@ -43,8 +47,8 @@ exports.npmjsCronJob = function (db) {
                                 + querystring.stringify( packageName );
                 
                 rest.get(full_request_url).on('complete',
-                  function(data) {
-                    collection.insert(data, {safe:true},
+                  function(packageMetadata) {
+                    collection.insert(packageMetadata, {safe:true},
                       function(err, result) {
                         console.log("Failed to insert new" +
                                     "package metadata for: " + packageName);

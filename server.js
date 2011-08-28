@@ -39,7 +39,6 @@ db.open(function(err, db) {
     // TO TEST!!
     console.log('Testing the insert.') ;
     npmjsapi.npmjsCronJob(db);
-    console.log('Finished test!');
   }
 });
 
