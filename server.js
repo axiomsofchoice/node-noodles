@@ -117,15 +117,15 @@ app.get('/force.js', function(req, res){
     });
 });
 app.get('/packages.json', function(req, res){
-        if(ready)(
+        if(ready){
     npmjsapi.npmjsGetPackageDetails ( function(content) {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(content, 'utf-8');
     });
-    ) else (
+        } else {
                 res.writeHead(404);
         res.end('');
-)
+        }
 });
 
 app.listen(process.env.NODE_ENV === 'production' ? 80 : 8000, function() {
