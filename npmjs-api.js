@@ -19,26 +19,35 @@ exports.npmjsCronJob = function (db) {
     
     rest.get(repo_url).on('complete', function(data) {
             
-            var list_of_repos = [] ;
-            var current_elem = ['void'] ; // make sure there is always something in here
+            // First sort the package list to make it easier to detect changes
+            var package_list = data.sort() ;
             
-            //
-            var packageName = '' ;
-            
-            var full_request_url = repo_url + '?' + querystring.stringify( packageName ); 
-            
-            console.log('New package found: ' + packageName) ;
-            
+            // Connect to the MongoDB server and check for changes
+            db.open(function(err, db) {
+              if(!err) {
+                console.log("Connected to MongoDB server.");
+                
+                var current_package_list = ['void'] ; // make sure there is always something in here
+                
+                //
+                var packageName = '' ;
+                
+                
+                console.log('New package found: ' + packageName) ;
+                
+                // Get the metadata for this new package and insert into the db
+                var full_request_url = repo_url + '?' 
+                                    + querystring.stringify( packageName ); 
+                
+              } else {
+                console.log("Failed to connect to MongoDB server.");
+              }
+            });
             
     });
     
 }
 
-
-// Update details
-exports.npmjsIntialize = function () {
-    console.log('Initializing database.');
-}
 
 // Get package details from the database
 exports.npmjsGetPackageDetails = function () {

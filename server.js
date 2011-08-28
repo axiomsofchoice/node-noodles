@@ -37,9 +37,6 @@ db.open(function(err, db) {
 });
 
 
-// As the server starts up it needs to check the database is correctly init'd
-npmjsapi.npmjsIntialize();
-
 // Setup pseudo-cron job to poll npm registry for changes and update mongodb
 // Poll every 5 minutes
 var npmjsapi_cron = setInterval(npmjsapi.npmjsCronJob, 300000, db);
