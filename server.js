@@ -49,9 +49,7 @@ var app = express.createServer();
 app.set('view engine', 'html');
 app.register('.html', jade );
 app.set('views', __dirname+'/pages');
-app.set('view options', {
-	layout: false
-	    });
+app.set('view options', { layout: false });
 
 app.get('/', function(req, res){
 	res.render('templt.jade',{pageTitle:'Search',youAreUsingJade:'Hello World!'});

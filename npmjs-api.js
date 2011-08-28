@@ -54,7 +54,7 @@ exports.npmjsCronJob = function (db) {
                                });
                           });
                     });
-                }
+		  });
             });
             
     });
