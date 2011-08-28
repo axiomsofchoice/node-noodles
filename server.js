@@ -5,7 +5,7 @@ var http = require('http')
     , express = require('express')
     , jade = require('jade')
     , rest = require('restler')
-    , mongodb = require('mongodb')
+    , mongo = require('mongodb')
     , odoar = require('./OpenDOAR-api')
     , nko = require('nko')('Eg3lmCJD7aocos0E');
 
