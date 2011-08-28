@@ -16,7 +16,8 @@
     "restler": "*",
     "node-xml":"*",
     "jade": "*",
-    "express": "*"
+    "express": "*",
+    "mongodb": "*"
   },
   "devDependencies": {}
 }

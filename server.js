@@ -5,10 +5,24 @@ var http = require('http')
     , express = require('express')
     , jade = require('jade')
     , rest = require('restler')
+    , mongodb = require('mongodb')
     , odoar = require('./OpenDOAR-api')
     , nko = require('nko')('Eg3lmCJD7aocos0E');
 
+// MongDB stuff
+var Server = mongo.Server,
+    Db = mongo.Db;
+//mongodb://axiomsofchoice:kiu3y&djh3D@staff.mongohq.com:10061/node-noodles
 
+var server = new Server('staff.mongohq.com', 10061, {auto_reconnect: true});
+var db = new Db('node-noodles', server);
+
+db.open(function(err, db) {
+  if(!err) {
+    console.log("We are connected");
+  }
+});
+    
 var app = express.createServer();
 
 app.set('view engine', 'html');
