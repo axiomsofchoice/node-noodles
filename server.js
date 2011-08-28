@@ -12,6 +12,7 @@ var http = require('http')
 // MongDB stuff
 var Server = mongo.Server,
     Db = mongo.Db;
+
 //mongodb://axiomsofchoice:kiu3y&djh3D@staff.mongohq.com:10061/node-noodles
 
 var server = new Server('staff.mongohq.com', 10061, {auto_reconnect: true});
