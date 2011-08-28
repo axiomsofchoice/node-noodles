@@ -1,9 +1,9 @@
 // server.js 
 
 var http = require('http')
+    , sys = require('sys')
     , express = require('express')
     , jade = require('jade')
-    , sys = require('sys')
     , rest = require('restler')
     , odoar = require('./OpenDOAR-api')
     , nko = require('nko')('Eg3lmCJD7aocos0E');
