@@ -11,6 +11,7 @@
 */
 
 var querystring = require('querystring')
+    , mongo = require('mongodb')
     , rest = require('restler') ;
 
 
@@ -63,7 +64,6 @@ exports.npmjsCronJob = function (db) {
                             console.log("Error: " + err) ;
                           } else {
                               // Also update the list of packages
-                              $push
                               collection.update({_id: new db.bson_serializer.ObjectID('4e5a85d99643f10007000005')},
                                                 {$push:{package_list:packageName}},
                                                     {safe:true}, function(err, result) {
