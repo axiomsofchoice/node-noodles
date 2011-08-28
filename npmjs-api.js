@@ -44,26 +44,26 @@ exports.npmjsCronJob = function (db) {
                 
                 // Get the metadata for this new package and insert into the db
                 var full_request_url = repo_url + querystring.escape( packageName );
-                
-                 console.log('Requesting: '+full_request_url) ;
+                console.log('Requesting: '+full_request_url) ;
                 rest.get(full_request_url).on('complete',
                   function(packageMetadata) {
-                      
-						  if(packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"]==null ) {
-						      console.log('Could not find dependencies. Skipping.')
-						  };
-                      var ins_obj = {
-                          "name": packageName,
-                          "description": packageMetadata["description"],
-                          "dependencies": packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"]
-                      } ;
-
+                    
+                    var ins_obj = {
+                        "name": packageName,
+                        "description": packageMetadata["description"],
+                        "dependencies": packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"]
+                    };
+                    
                     console.log('Original package metadata:'+JSON.stringify(packageMetadata));
                     console.log('New package metadata:'+JSON.stringify(ins_obj));
                     collection.insert(ins_obj, {safe:true},
                       function(err, result) {
-                        console.log("Failed to insert new package metadata for: " + packageName);
-                        console.log("Error: " + err) ;
+                          if(err) {
+                            console.log("Failed to insert new package metadata for: " + packageName);
+                            console.log("Error: " + err) ;
+                          } else {
+                              // Also update the list of packages
+                          };
                        });
                   });
               });
