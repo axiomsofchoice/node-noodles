@@ -118,13 +118,13 @@ app.get('/force.js', function(req, res){
 });
 app.get('/packages.json', function(req, res){
         if(ready){
-    npmjsapi.npmjsGetPackageDetails ( function(content) {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(content, 'utf-8');
-    });
+            npmjsapi.npmjsGetPackageDetails ( db, function(content) {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(content, 'utf-8');
+            });
         } else {
-                res.writeHead(404);
-        res.end('');
+            res.writeHead(404);
+            res.end('');
         }
 });
 

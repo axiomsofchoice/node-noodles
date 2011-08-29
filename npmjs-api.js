@@ -92,7 +92,7 @@ exports.npmjsCronJob = function (db) {
 
 
 // Get package details from the database
-exports.npmjsGetPackageDetails = function (cb) {
+exports.npmjsGetPackageDetails = function (db, cb) {
             db.collection('npm_packages', function(err, collection) {
 	   collection.findOne({_id: new db.bson_serializer.ObjectID('4e5a85d99643f10007000005')}, 
               function(err, current_package_list) {
