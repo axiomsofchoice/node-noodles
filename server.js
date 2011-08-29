@@ -23,18 +23,16 @@ var http = require('http')
     , nko = require('nko')('Eg3lmCJD7aocos0E');
 
 // MongDB stuff
-//mongodb://axiomsofchoice:kiu3y&djh3D@staff.mongohq.com:10061/node-noodles
-
 var Server = mongo.Server,
     Db = mongo.Db;
 
-var server = new Server('staff.mongohq.com', 10061, {auto_reconnect: true});
+var server = new Server('localhost', 27017, {auto_reconnect: true});
 var db = new Db('node-noodles', server);
 
 var ready = false;
 
 db.open(function(err, db) {
-    db.authenticate('axiomsofchoice', 'kiu3y&djh3D', function(err,foo) {
+	//db.authenticate('axiomsofchoice', 'kiu3y&djh3D', function(err,foo) {
       if(!err) {
         console.log("We are connected");
         // Setup pseudo-cron job to poll npm registry for changes and update mongodb
@@ -47,7 +45,7 @@ db.open(function(err, db) {
       } else {
 	  console.log('Failed to connect to MongoDB.') ;
       }
-    });
+      //});
 });
 
 var app = express.createServer();
