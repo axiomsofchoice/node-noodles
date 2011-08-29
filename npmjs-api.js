@@ -58,7 +58,7 @@ exports.npmjsCronJob = function (db) {
                     try {
                         var deps = packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"] ;
                         for(var package_name in deps) {
-                            if(deps.hasOwnProperty(package_name))
+                            if(deps.hasOwnProperty(package_name)) {
                                 deps_list.push(package_name) ;
                             }
                         }
