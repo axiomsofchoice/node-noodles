@@ -103,10 +103,12 @@ exports.npmjsGetPackageDetails = function (db, cb) {
         stream.on("data", 
           function(package_detail) {
             
+            var deps = package_detail["dependencies"] ;
+            
             // Note that is construct implies that if a package doesn't have
             // any dependencies then it won't be included.
-            for(var package_name in package_detail) {
-                if(package_detail.hasOwnProperty(package_name)) {
+            for(var package_name in deps) {
+                if(deps.hasOwnProperty(package_name)) {
                     if(myJson["nodes"].indexOf(package_name)==-1)
                         // Everything is grouped into one group
                         myJson["nodes"].push({"name":package_name,"group":1}) ;
