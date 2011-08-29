@@ -97,7 +97,7 @@ exports.npmjsGetPackageDetails = function (db, cb) {
     db.collection('npm_packages', function(err, collection) {
         
         var myJson = {"nodes":[],"links":[]};
-        
+        var packages_index = [] ;
         var stream = collection.find({ "dependencies" : { $exists : true } }).streamRecords();
         
         stream.on("data", 
@@ -109,12 +109,14 @@ exports.npmjsGetPackageDetails = function (db, cb) {
             // any dependencies then it won't be included.
             for(var package_name in deps) {
                 if(deps.hasOwnProperty(package_name)) {
-                    if(myJson["nodes"].indexOf(package_name)==-1)
+                    if(packages_index.indexOf(package_name)==-1) {
                         // Everything is grouped into one group
                         myJson["nodes"].push({"name":package_name,"group":1}) ;
+                        packages_index.push(package_name) ;
+                    }
                     
-                    myJson["links"].push({"source":myJson["nodes"].indexOf(package_detail["name"]),
-                                          "target":myJson["nodes"].indexOf(package_name),
+                    myJson["links"].push({"source": packages_index.indexOf(package_detail["name"]),
+                                          "target": packages_index.indexOf(package_name),
                                           "value":1}) ;
                 }
             }
