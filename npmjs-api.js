@@ -137,8 +137,7 @@ exports.npmjsGetPackageDetails = function (db, cb) {
                 myJson["links"].push({"source": packages_index.indexOf(package_detail["name"]),
                                       "target": packages_index.indexOf(dep_name),
                                       "value":1}) ;
-                });
-            }
+            });
           });
           
           stream.on("end", function() {
