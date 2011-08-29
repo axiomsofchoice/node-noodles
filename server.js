@@ -39,8 +39,7 @@ db.open(function(err, db) {
         // Poll every 5 minutes
         //var npmjsapi_cron = setInterval(npmjsapi.npmjsCronJob, 300000, db);
         // TO TEST!!
-        /*console.log('Testing the insert.') ;
-        npmjsapi.npmjsCronJob(db);*/
+        npmjsapi.npmjsCronJob(db);
         ready = true;
       } else {
 	  console.log('Failed to connect to MongoDB.') ;

@@ -30,16 +30,21 @@ exports.npmjsCronJob = function (db) {
         // Get the packages collection
         db.collection('npm_packages', function(err, collection) {
             
+		if(err) {
+		    console.log('Could not find the npm_packages collection. Aborting') ;
+		    return;
+		}
+		
             // Get current list of packages, which is a special doc
 	   collection.findOne({_id: new db.bson_serializer.ObjectID('4e5a85d99643f10007000005')}, 
               function(err, current_package_list) {
                 
-                  if(err) {
+                  if(err || current_package_list==null) {
                       console.log('Error finding package list doc. Aborting') ;
                       return;
                   }
                 
-                //console.log('current_package_list:' + JSON.stringify(current_package_list));
+                console.log('current_package_list:' + JSON.stringify(current_package_list));
                 
                 // Find out if we already have them
                 package_list.forEach( function(packageName) {
