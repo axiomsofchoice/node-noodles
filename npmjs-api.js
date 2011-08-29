@@ -109,6 +109,12 @@ exports.npmjsGetPackageDetails = function (db, cb) {
             // any dependencies then it won't be included.
             for(var package_name in deps) {
                 if(deps.hasOwnProperty(package_name)) {
+                    // Test both the source and target
+                    if(packages_index.indexOf(package_detail["name"])==-1) {
+                        // Everything is grouped into one group
+                        myJson["nodes"].push({"name":package_detail["name"],"group":1}) ;
+                        packages_index.push(package_detail["name"]) ;
+                    }
                     if(packages_index.indexOf(package_name)==-1) {
                         // Everything is grouped into one group
                         myJson["nodes"].push({"name":package_name,"group":1}) ;
