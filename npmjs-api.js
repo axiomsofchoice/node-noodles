@@ -48,31 +48,31 @@ exports.npmjsCronJob = function (db) {
                     if(current_package_list['package_list'].indexOf(packageName)==-1){
                         console.log('New package found: ' + packageName) ;
                     
-                    // Convert the dependency list from an object to an array
-                    // This is necessary since the keys retruned from the repo
-                    // contain characters that cannot be directly inserted into
-                    // MongoDB
-                    // Note that at present we only get the dist-tag "latest"
-                    // Sometimes this isn't present, so we catch the exception
-                    var deps_list = [] ;
-                    try {
-                        var deps = packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"] ;
-                        for(var package_name in deps) {
-                            if(deps.hasOwnProperty(package_name)) {
-                                deps_list.push(package_name) ;
-                            }
-                        }
-                    } catch (err) {
-                        console.log('Problem getting information about dependencies: ' + TypeError);
-                        console.log('Aborting this package...');
-                        return;
-                    }
-                    
                     // Get the metadata for this new package and insert into the db
                     var full_request_url = repo_url + querystring.escape( packageName );
                     console.log('Requesting: '+full_request_url) ;
                     rest.get(full_request_url).on('complete',
                       function(packageMetadata) {
+                        
+                        // Convert the dependency list from an object to an array
+                        // This is necessary since the keys retruned from the repo
+                        // contain characters that cannot be directly inserted into
+                        // MongoDB
+                        // Note that at present we only get the dist-tag "latest"
+                        // Sometimes this isn't present, so we catch the exception
+                        var deps_list = [] ;
+                        try {
+                            var deps = packageMetadata["versions"][packageMetadata["dist-tags"]["latest"]]["dependencies"] ;
+                            for(var package_name in deps) {
+                                if(deps.hasOwnProperty(package_name)) {
+                                    deps_list.push(package_name) ;
+                                }
+                            }
+                        } catch (err) {
+                            console.log('Problem getting information about dependencies: ' + TypeError);
+                            console.log('Aborting this package...');
+                            return;
+                        }
                         
                         var ins_obj = {
                             "name": packageName,
