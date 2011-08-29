@@ -70,8 +70,7 @@ exports.npmjsCronJob = function (db) {
                                 }
                             } catch (err) {
                                 console.log('Problem getting information about dependencies: ' + TypeError);
-                                console.log('Aborting this package...');
-                                return;
+                                console.log('Aborting this package...but keeping package name on the list.');
                             }
                             
                             var ins_obj = {
