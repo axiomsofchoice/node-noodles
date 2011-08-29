@@ -98,8 +98,10 @@ exports.npmjsGetPackageDetails = function (db, cb) {
         
         var myJson = {"nodes":[],"links":[]};
         
-        collection.find({ "dependencies" : { $exists : true } }).toArray( 
-          function(err, package_detail) {
+        var stream = collection.find({ "dependencies" : { $exists : true } }).streamRecords();
+        
+        stream.on("data", 
+          function(package_detail) {
             
             // Note that is construct implies that if a package doesn't have
             // any dependencies then it won't be included.
@@ -116,6 +118,8 @@ exports.npmjsGetPackageDetails = function (db, cb) {
             }
           });
           
-          cb(JSON.stringify(myJson));
+          stream.on("end", function() {
+              cb(JSON.stringify(myJson));
+          });
     });
 }
