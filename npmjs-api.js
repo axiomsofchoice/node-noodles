@@ -93,20 +93,29 @@ exports.npmjsCronJob = function (db) {
 
 // Get package details from the database
 exports.npmjsGetPackageDetails = function (db, cb) {
-            db.collection('npm_packages', function(err, collection) {
-	   collection.findOne({_id: new db.bson_serializer.ObjectID('4e5a85d99643f10007000005')}, 
-              function(err, current_package_list) {
-                  
-                  var packages = [] ;
-                  
-                  current_package_list['package_list'].forEach( function(item) {
-                          packages.push({"name":item,"group":1});
-                  };
-    var myJson = {"nodes":packages,
-                    "links":[{"source":1,"target":0,"value":1},{"source":2,"target":0,"value":8},{"source":3,"target":0,"value":10},{"source":3,"target":2,"value":6},{"source":4,"target":0,"value":1},{"source":5,"target":0,"value":1},{"source":6,"target":0,"value":1},{"source":7,"target":0,"value":1},{"source":8,"target":0,"value":2},{"source":9,"target":0,"value":1},{"source":11,"target":10,"value":1},{"source":11,"target":3,"value":3},{"source":11,"target":2,"value":3},{"source":11,"target":0,"value":5},{"source":12,"target":11,"value":1},{"source":13,"target":11,"value":1},{"source":14,"target":11,"value":1},{"source":15,"target":11,"value":1},{"source":17,"target":16,"value":4},{"source":18,"target":16,"value":4},{"source":18,"target":17,"value":4},{"source":19,"target":16,"value":4},]} ;
     
+    db.collection('npm_packages', function(err, collection) {
+        
+        var myJson = {"nodes":[],"links":[]};
+        
+        collection.find({ "dependencies" : { $exists : true } }).toArray( 
+          function(err, package_detail) {
+            
+            // Note that is construct implies that if a package doesn't have
+            // any dependencies then it won't be included.
+            for(var package_name in package_detail) {
+                if(package_detail.hasOwnProperty(package_name)) {
+                    if(myJson["nodes"].indexOf(package_name)==-1)
+                        // Everything is grouped into one group
+                        myJson["nodes"].push({"name":package_name,"group":1}) ;
                     
-                    cb(JSON.stringify(myJson));
-              });
-            });
+                    myJson["links"].push({"source":myJson["nodes"].indexOf(package_detail["name"]),
+                                          "target":myJson["nodes"].indexOf(package_name),
+                                          "value":1}) ;
+                }
+            }
+          });
+          
+          cb(JSON.stringify(myJson));
+    });
 }
